@@ -29,7 +29,7 @@ const loginSchema = z.object({
 app.post('/auth/register', async (req, res) => {
     const result = loginSchema.safeParse(req.body);
     if (!result.success) {
-        // Fix: Use proper Zod error formatting
+        
         const formattedErrors = result.error.format();
         const errorMessages = [];
         
@@ -40,6 +40,10 @@ app.post('/auth/register', async (req, res) => {
         }
         
         return res.status(422).json({ msg: errorMessages.join('; ') });
+    }
+
+    if (result.success) {
+        console.log('Dados válidos:', result.data);
     }
 
     const {name, email, password, confirmpassword} = result.data;
@@ -57,5 +61,5 @@ mongoose
         app.listen(3000)
         console.log('Conectou ao MongoDB')
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
 
