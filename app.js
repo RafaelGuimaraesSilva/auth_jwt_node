@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { default: z } = require('zod');
 
 const app = express();
 
@@ -16,14 +17,22 @@ app.get('/', (req, res) => {
     res.status(200).json({msg: 'Bem vindo a API'});
 });
 
+const loginSchema = z.object({
+    email: z.email(),
+    password: z.string().min(6),
+    name: z.string().min(2).max(100).optional(),
+    confirmpassword: z.string().min(6).optional()
+})
+
 //register user
 app.post('/auth/register', async (req, res) => {
-    const {name, email, password, confirmpassword} = req.body
-
-    //validations
-    if(!name) {
-        return res.status(422).json({msg: 'O nome é obrigatório!'})
+    const result = loginSchema.safeParse(req.body);
+    if (!result.success) {
+        const errors = result.error.errors.map((err) => err.message);
+        return res.status(422).json({msg: errors.join(', ')});
     }
+
+    const {name, email, password, confirmpassword} = result.data;
 })
 
 // credenciais
@@ -38,5 +47,5 @@ mongoose
         app.listen(3000)
         console.log('Conectou ao MongoDB')
     })
-    .catch((err) => console.log(err))
+    .catch((err) => console.log(err));
 
