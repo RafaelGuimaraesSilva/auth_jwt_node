@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { default: z } = require('zod');
 
+
 const app = express();
 
 // config JSON response
@@ -28,8 +29,17 @@ const loginSchema = z.object({
 app.post('/auth/register', async (req, res) => {
     const result = loginSchema.safeParse(req.body);
     if (!result.success) {
-        const errors = result.error.errors.map((err) => err.message);
-        return res.status(422).json({msg: errors.join(', ')});
+        // Fix: Use proper Zod error formatting
+        const formattedErrors = result.error.format();
+        const errorMessages = [];
+        
+        for (const [field, error] of Object.entries(formattedErrors)) {
+            if (field !== '_errors' && error._errors) {
+                errorMessages.push(`${field}: ${error._errors.join(', ')}`);
+            }
+        }
+        
+        return res.status(422).json({ msg: errorMessages.join('; ') });
     }
 
     const {name, email, password, confirmpassword} = result.data;
