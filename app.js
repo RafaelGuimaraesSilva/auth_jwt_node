@@ -6,6 +6,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const app = express();
+const cors = require('cors');
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // config JSON response
 
@@ -32,7 +38,8 @@ app.get('/user/:id', checkToken,  async (req, res) => {
         return res.status(404).json({msg: 'Usuário não encontrado!'})
     }
     
-
+    // Add this line to return the user data
+    return res.status(200).json({ user })
 })
 
 
@@ -79,7 +86,7 @@ app.post('/auth/register', async (req, res) => {
     //check if user exists
     const userExists = await User.findOne({email: email})
     if(userExists){
-        return res.status(422).json({msg: 'Por favor, utilize outro email!'})
+        return res.status(422).json({msg: 'Email já cadastrado, por favor utilize outro!'})
     }
 
     //create password
