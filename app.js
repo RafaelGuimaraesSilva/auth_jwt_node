@@ -6,23 +6,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const app = express();
+const cors = require('cors');
+app.use(cors());
 
-// ✅ ADICIONE ESTAS LINHAS PARA RESOLVER CORS
-app.use((req, res, next) => {
-    // Permite todas as origens durante desenvolvimento
-    res.header('Access-Control-Allow-Origin', '*');
-    // Permite métodos HTTP necessários
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    // Permite headers necessários
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    
-    // Responde automaticamente para requisições OPTIONS
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
-    
-    next();
-});
+
 
 // config JSON response
 app.use(express.json());
