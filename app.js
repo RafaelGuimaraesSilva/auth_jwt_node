@@ -38,20 +38,20 @@ app.get('/user/:id', checkToken,  async (req, res) => {
 })
 
 //private route middleware
-function checkToken(req, res, next){
+function checkToken(req, res, next) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(" ")[1]
 
-    if(!token){
-        return res.status(401).json({msg: 'Acesso negado!'})
+    if(!token) {
+        return res.status(401).json({ msg: 'Acesso negado!' })
     }
+
     try {
         const secret = process.env.SECRET
         jwt.verify(token, secret)
         next()
-    } catch (error) {
-        console.log(error)
-        res.status(400).json({msg: 'Token inválido!'})
+    } catch(error) {
+        res.status(400).json({ msg: 'Token inválido!' })
     }
 }
 
@@ -135,9 +135,8 @@ app.post('/auth/login', async (req, res) => {
             secret,
         )
         res.status(200).json({msg: 'Autenticação realizada com sucesso!', token})
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({msg: 'Aconteceu um erro no servidor, tente novamente mais tarde!'})
+    } catch(error) {
+        res.status(500).json({ msg: error })
     }
 })
 
@@ -145,11 +144,10 @@ app.post('/auth/login', async (req, res) => {
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
 
-mongoose   
-    .connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0.vb9dsk0.mongodb.net/`)
+mongoose
+    .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.vb9dsk0.mongodb.net/`)
     .then(() => {
-        app.listen(3002) // Changed port to 3002
+        app.listen(3000)
         console.log('Conectou ao MongoDB')
-        console.log('Server running on port 3002')
     })
     .catch((err) => console.log(err))
