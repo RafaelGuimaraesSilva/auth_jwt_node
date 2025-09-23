@@ -12,37 +12,30 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <div class="nav-brand">
-                <i class="fas fa-leaf"></i>
-                <span>Energiacessivel</span>
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <img src="assets/energia-solar.png" alt="Logo Energia Solar">
+                </a>
+                <nav class="nav-menu">
+                    <ul>
+                        <li><a href="#inicio">Início</a></li>
+                        <li><a href="#beneficios">Benefícios</a></li>
+                        <li><a href="#solucoes">Soluções</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                    </ul>
+                </nav>
             </div>
-            <nav class="nav-menu" id="navMenu">
-                <a href="#inicio">Início</a>
-                <a href="#solucoes">Soluções</a>
-                <a href="#beneficios">Benefícios</a>
-                <a href="#sobre">Sobre</a>
-                <a href="#contato">Contato</a>
-            </nav>
-           <div class="nav-actions">
-                <a id="loginLink" href="login.html" class="btn-secondary">LOGIN</a>
-                <button class="btn-primary">Começar Agora</button>
-                <div class="user-menu" id="userMenu" style="display:none; position: relative; margin-left: 8px;">
-                    <button id="userButton" class="btn-secondary" style="display:inline-flex; align-items:center; gap:8px;">
-                        <i class="fas fa-user-circle"></i>
-                    </button>
-                    <div id="userDropdown" class="user-dropdown" style="display:none; position:absolute; right:0; top:110%; background:#fff; border:1px solid var(--border); border-radius:8px; min-width:140px; box-shadow:0 8px 20px rgba(0,0,0,0.08); z-index: 1000;">
-                        <button id="logoutBtn" class="dropdown-item" style="padding:10px 16px; width:100%; text-align:left; background:none; border:none; cursor:pointer;">Sair</button>
-                    </div>
-                </div>
-            </div>
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero" id="inicio">
+        <div class="video-background">
+            <video autoplay muted loop playsinline>
+                <source src="assets/855505-hd_1920_1080_25fps.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
         <div class="container">
             <div class="hero-content">
                 <h1>Energia Limpa e Acessível para Todos</h1>
@@ -228,20 +221,13 @@
                         <div id="listaCategorias" class="lista-categorias categorias-botoes"></div>
                         <div class="tarifa-busca">
                             <label for="tarifaKwh">Tarifa (R$/kWh)</label>
-                            <div class="tarifa-row">
-                                <input id="tarifaKwh" type="number" min="0" step="0.01" value="0.95"/>
-                                <button id="btnBuscarTarifa" class="btn-outline" title="Pesquisar tarifa por cidade">Pesquisar</button>
-                            </div>
+                            <input id="tarifaKwh" type="number" min="0" step="0.01" value="0.95"/>
+                            <button id="btnBuscarTarifa" class="btn-outline" title="Pesquisar tarifa por cidade">Pesquisar</button>
                         </div>
                     </aside>
                     <main class="consumo-selecionados">
                         <h4 id="catalogoTitulo">Catálogo</h4>
                         <div id="catalogoGrid" class="catalogo-grid"></div>
-                        <hr style="margin:1rem 0; border-color: var(--border);"/>
-                        <h4>Itens Selecionados</h4>
-                        <div id="listaSelecionados" class="lista-selecionados"></div>
-                        <button id="btnCalcularConsumo" class="btn-primary" style="margin-top:1rem;">Calcular</button>
-                        <div id="resultadoConsumo" class="resultado" style="display:none;"></div>
                     </main>
                     <aside class="consumo-upsell">
                         <h4>Economize com nossos planos</h4>
@@ -254,6 +240,11 @@
                                 <button class="btn-secondary" id="btnFalarEspecialista">Falar com especialista</button>
                             </div>
                         </div>
+                        <hr style="margin:1rem 0; border-color: var(--border);"/>
+                        <h4>Itens Selecionados</h4>
+                        <div id="listaSelecionados" class="lista-selecionados"></div>
+                        <button id="btnCalcularConsumo" class="btn-primary" style="margin-top:1rem;">Calcular</button>
+                        <div id="resultadoConsumo" class="resultado" style="display:none;"></div>
                     </aside>
                 </div>
             </div>
