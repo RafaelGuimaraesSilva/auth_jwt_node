@@ -1,4 +1,12 @@
-// Mobile Menu Toggle
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = '/';
+    }
+});
+
+
+
 const mobileMenuBtn = document.getElementById("mobileMenuBtn")
 const navMenu = document.getElementById("navMenu")
 
@@ -479,4 +487,26 @@ document.addEventListener('DOMContentLoaded', () => {
             body.style.overflow = '';
         }
     });
+});
+
+// User menu functionality
+const userButton = document.querySelector('.user-button');
+const userDropdown = document.querySelector('.user-dropdown');
+const logoutButton = document.getElementById('logoutButton');
+
+userButton.addEventListener('click', () => {
+    userDropdown.classList.toggle('active');
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if (!userButton.contains(e.target) && !userDropdown.contains(e.target)) {
+        userDropdown.classList.remove('active');
+    }
+});
+
+// Logout functionality
+logoutButton.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    window.location.href = '/';
 });
