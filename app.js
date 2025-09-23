@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const cors = require('cors');
 app.use(cors({
-    origin: 'http://127.0.0.1:5500',
+    origin: [/^http:\/\/localhost:\d+$/, /^http:\/\/127\.0\.0\.1:\d+$/],
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -151,7 +151,10 @@ const dbPass = process.env.DB_PASS;
 mongoose
     .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.vb9dsk0.mongodb.net/`)
     .then(() => {
-        app.listen(3000)
-        console.log('Conectou ao MongoDB')
+        const PORT = process.env.PORT || 3000
+        app.listen(PORT, () => {
+            console.log(`Conectou ao MongoDB`)
+            console.log(`Servidor rodando na porta ${PORT}`)
+        })
     })
     .catch((err) => console.log(err))

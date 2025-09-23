@@ -10,12 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
 const mobileMenuBtn = document.getElementById("mobileMenuBtn")
 const navMenu = document.getElementById("navMenu")
 
-mobileMenuBtn.addEventListener("click", () => {
-  navMenu.classList.toggle("active")
-  const icon = mobileMenuBtn.querySelector("i")
-  icon.classList.toggle("fa-bars")
-  icon.classList.toggle("fa-times")
-})
+if (mobileMenuBtn && navMenu) {
+  mobileMenuBtn.addEventListener("click", () => {
+    navMenu.classList.toggle("active")
+    const icon = mobileMenuBtn.querySelector("i")
+    if (icon) {
+      icon.classList.toggle("fa-bars")
+      icon.classList.toggle("fa-times")
+    }
+  })
+}
 
 // Smooth Scrolling para links de navegação
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -494,19 +498,23 @@ const userButton = document.querySelector('.user-button');
 const userDropdown = document.querySelector('.user-dropdown');
 const logoutButton = document.getElementById('logoutButton');
 
-userButton.addEventListener('click', () => {
-    userDropdown.classList.toggle('active');
-});
+if (userButton && userDropdown) {
+  userButton.addEventListener('click', () => {
+      userDropdown.classList.toggle('active');
+  });
 
-// Close dropdown when clicking outside
-document.addEventListener('click', (e) => {
-    if (!userButton.contains(e.target) && !userDropdown.contains(e.target)) {
-        userDropdown.classList.remove('active');
-    }
-});
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+      if (!userButton.contains(e.target) && !userDropdown.contains(e.target)) {
+          userDropdown.classList.remove('active');
+      }
+  });
+}
 
 // Logout functionality
-logoutButton.addEventListener('click', () => {
-    localStorage.removeItem('token');
-    window.location.href = '/';
-});
+if (logoutButton) {
+  logoutButton.addEventListener('click', () => {
+      localStorage.removeItem('token');
+      window.location.href = '/';
+  });
+}
