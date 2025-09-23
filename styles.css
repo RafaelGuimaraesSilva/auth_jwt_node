@@ -1058,6 +1058,12 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8eef7;
+    color: #2a5bd7;
+    font-size: 16px;
 }
 
 .user-dropdown {
