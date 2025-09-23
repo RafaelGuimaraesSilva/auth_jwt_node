@@ -6,21 +6,29 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const app = express();
-const cors = require('cors');
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+
+// ✅ ADICIONE ESTAS LINHAS PARA RESOLVER CORS
+app.use((req, res, next) => {
+    // Permite todas as origens durante desenvolvimento
+    res.header('Access-Control-Allow-Origin', '*');
+    // Permite métodos HTTP necessários
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    // Permite headers necessários
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    
+    // Responde automaticamente para requisições OPTIONS
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    
+    next();
+});
 
 // config JSON response
-
 app.use(express.json());
 
 // models
 const User = require('./models/User.js');
-const { success } = require('zod');
-const { tr, ca } = require('zod/locales');
 
 // rota publica
 app.get('/', (req, res) => {
@@ -38,14 +46,12 @@ app.get('/user/:id', checkToken,  async (req, res) => {
         return res.status(404).json({msg: 'Usuário não encontrado!'})
     }
     
-    // Add this line to return the user data
-    return res.status(200).json({ user })
+    // ✅ ADICIONE ESTA LINHA - retorna o usuário
+    res.status(200).json({ user })
 })
-
 
 //private route middleware
 function checkToken(req, res, next){
-
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(" ")[1]
 
@@ -61,9 +67,6 @@ function checkToken(req, res, next){
         res.status(400).json({msg: 'Token inválido!'})
     }
 }
-
-
-
 
 //register user
 app.post('/auth/register', async (req, res) => {
@@ -108,9 +111,7 @@ app.post('/auth/register', async (req, res) => {
         console.log(error)
         res.status(500).json({msg: 'Aconteceu um erro no servidor, tente novamente mais tarde!'})
     }
-
 })
-
 
 //login user
 app.post('/auth/login', async (req, res) => {
@@ -151,20 +152,17 @@ app.post('/auth/login', async (req, res) => {
         console.log(error)
         res.status(500).json({msg: 'Aconteceu um erro no servidor, tente novamente mais tarde!'})
     }
-
 })
 
 // credenciais
-
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
-
 
 mongoose   
     .connect(`mongodb+srv://${dbUser}:${dbPass}@cluster0.vb9dsk0.mongodb.net/`)
     .then(() => {
-        app.listen(3000)
+        app.listen(3002) // Changed port to 3002
         console.log('Conectou ao MongoDB')
+        console.log('Server running on port 3002')
     })
     .catch((err) => console.log(err))
-
