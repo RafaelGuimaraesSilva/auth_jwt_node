@@ -13,8 +13,7 @@ app.use(express.json());
 
 // models
 const User = require('./models/User.js');
-const { success } = require('zod');
-const { tr, ca } = require('zod/locales');
+
 
 // rota publica
 app.get('/', (req, res) => {
@@ -31,7 +30,6 @@ app.get('/user/:id', checkToken,  async (req, res) => {
     if(!user){
         return res.status(404).json({msg: 'Usuário não encontrado!'})
     }
-    
 
 })
 
